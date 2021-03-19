@@ -10,9 +10,9 @@ IPL_LOAD_ADDR := 0x40008000
 
 ################################################################################
 
-TARGET := kosmos_reborn_updater_rcm
-BUILDDIR := Build
-OUTPUTDIR := Output
+TARGET := aio_rcm
+BUILDDIR := build
+OUTPUTDIR := output
 SOURCEDIR = bootloader
 BDKDIR := bdk
 BDKINC := -I./$(BDKDIR)

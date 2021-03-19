@@ -1,6 +1,4 @@
-# Kosmos Reborn Updater RCM
-
-RCM payload to update Atmosphère. This payload is built off of CTCaer's Hekate codebase.
+RCM payload to update Atmosphère. This payload is built off of CTCaer's Hekate codebase. Thanks to https://github.com/NicholeMattera for removing uncessary files
 
 ```
 hekate  (c) 2018,      naehrwert, st4rk.

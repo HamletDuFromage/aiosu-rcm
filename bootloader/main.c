@@ -422,16 +422,21 @@ void ipl_main()
 	minerva_change_freq(FREQ_800);
 
 	if (sd_mount()) {
-		if (f_stat("atmosphere/fusee-secondary.bin.new", NULL) == FR_OK && f_unlink("atmosphere/fusee-secondary.bin") == FR_OK) {
-			f_rename("atmosphere/fusee-secondary.bin.new", "atmosphere/fusee-secondary.bin");
+		if (f_stat("config/aio-switch-updater/atmosphere/fusee-secondary.bin", NULL) == FR_OK && f_unlink("atmosphere/fusee-secondary.bin") == FR_OK) {
+			f_rename("config/aio-switch-updater/atmosphere/fusee-secondary.bin", "atmosphere/fusee-secondary.bin");
 		}
 
-		if (f_stat("sept/payload.bin.new", NULL) == FR_OK && f_unlink("sept/payload.bin") == FR_OK) {
-			f_rename("sept/payload.bin.new", "sept/payload.bin");
+		if (f_stat("config/aio-switch-updater/sept/payload.bin", NULL) == FR_OK && f_unlink("sept/payload.bin") == FR_OK) {
+			f_rename("config/aio-switch-updater/sept/payload.bin", "sept/payload.bin");
 		}
 	}
 
-	launch_payload("bootloader/update.bin", false);
+	if (f_stat("bootloader/update.bin", NULL) == FR_OK)
+		launch_payload("bootloader/update.bin", false);
+
+	if (f_stat("atmosphere/reboot_payload.bin", NULL) == FR_OK)	
+		launch_payload("atmosphere/reboot_payload.bin", false);
+
 	EPRINTF("Failed to launch payload.");
 
 	// Halt BPMP if we managed to get out of execution.
