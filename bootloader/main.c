@@ -429,6 +429,11 @@ void ipl_main()
 		if (f_stat("config/aio-switch-updater/sept/payload.bin", NULL) == FR_OK && f_unlink("sept/payload.bin") == FR_OK) {
 			f_rename("config/aio-switch-updater/sept/payload.bin", "sept/payload.bin");
 		}
+
+		if (f_stat("config/aio-switch-updater/atmosphere/stratosphere.romfs", NULL) == FR_OK && f_unlink("atmosphere/stratosphere.romfs") == FR_OK) {
+			f_rename("config/aio-switch-updater/atmosphere/stratosphere.romfs", "atmosphere/stratosphere.romfs");
+		}
+
 	}
 
 	if (f_stat("bootloader/update.bin", NULL) == FR_OK)
