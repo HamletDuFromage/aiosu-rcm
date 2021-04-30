@@ -422,16 +422,16 @@ void ipl_main()
 	minerva_change_freq(FREQ_800);
 
 	if (sd_mount()) {
-		if (f_stat("config/aio-switch-updater/atmosphere/fusee-secondary.bin", NULL) == FR_OK && f_unlink("atmosphere/fusee-secondary.bin") == FR_OK) {
-			f_rename("config/aio-switch-updater/atmosphere/fusee-secondary.bin", "atmosphere/fusee-secondary.bin");
+		if (f_stat("atmosphere/fusee-secondary.bin.aio", NULL) == FR_OK && f_unlink("atmosphere/fusee-secondary.bin") == FR_OK) {
+			f_rename("atmosphere/fusee-secondary.bin.aio", "atmosphere/fusee-secondary.bin");
 		}
 
-		if (f_stat("config/aio-switch-updater/sept/payload.bin", NULL) == FR_OK && f_unlink("sept/payload.bin") == FR_OK) {
-			f_rename("config/aio-switch-updater/sept/payload.bin", "sept/payload.bin");
+		if (f_stat("sept/payload.bin.aio", NULL) == FR_OK && f_unlink("sept/payload.bin") == FR_OK) {
+			f_rename("sept/payload.bin.aio", "sept/payload.bin");
 		}
 
-		if (f_stat("config/aio-switch-updater/atmosphere/stratosphere.romfs", NULL) == FR_OK && f_unlink("atmosphere/stratosphere.romfs") == FR_OK) {
-			f_rename("config/aio-switch-updater/atmosphere/stratosphere.romfs", "atmosphere/stratosphere.romfs");
+		if (f_stat("atmosphere/stratosphere.romfs.aio", NULL) == FR_OK && f_unlink("atmosphere/stratosphere.romfs") == FR_OK) {
+			f_rename("atmosphere/stratosphere.romfs.aio", "atmosphere/stratosphere.romfs");
 		}
 
 	}
