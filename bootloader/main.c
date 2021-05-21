@@ -434,15 +434,23 @@ void ipl_main()
 			f_rename("atmosphere/stratosphere.romfs.aio", "atmosphere/stratosphere.romfs");
 		}
 
+	// If the console is a patched or Mariko unit
+	if (h_cfg.t210b01 || h_cfg.rcm_patched) {
+		if (f_stat("payload.bin.aio", NULL) == FR_OK) {
+			f_rename("payload.bin.aio", "payload.bin");
+		}
+		power_set_state(POWER_OFF_REBOOT);
 	}
 
-	if (f_stat("bootloader/update.bin", NULL) == FR_OK)
-		launch_payload("bootloader/update.bin", false);
+	else {
+		if (f_stat("bootloader/update.bin", NULL) == FR_OK)
+			launch_payload("bootloader/update.bin", false);
 
-	if (f_stat("atmosphere/reboot_payload.bin", NULL) == FR_OK)	
-		launch_payload("atmosphere/reboot_payload.bin", false);
+		if (f_stat("atmosphere/reboot_payload.bin", NULL) == FR_OK)	
+			launch_payload("atmosphere/reboot_payload.bin", false);
 
-	EPRINTF("Failed to launch payload.");
+		EPRINTF("Failed to launch payload.");
+	}
 
 	// Halt BPMP if we managed to get out of execution.
 	while (true)
