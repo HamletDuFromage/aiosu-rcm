@@ -436,7 +436,7 @@ void ipl_main()
 
 		// If the console is a patched or Mariko unit
 		if (h_cfg.t210b01 || h_cfg.rcm_patched) {
-			if (f_stat("payload.bin.aio", NULL) == FR_OK) {
+			if (f_stat("payload.bin.aio", NULL) == FR_OK && f_unlink("payload.bin") == FR_OK) {
 				f_rename("payload.bin.aio", "payload.bin");
 			}
 			power_set_state(POWER_OFF_REBOOT);
