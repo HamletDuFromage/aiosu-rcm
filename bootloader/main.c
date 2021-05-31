@@ -412,6 +412,10 @@ void ipl_main()
 
 	// Overclock BPMP.
 	bpmp_clk_rate_set(BPMP_CLK_DEFAULT_BOOST);
+
+	// Clear Minverva missing errors
+	h_cfg.errors &= ~ERR_LIBSYS_LP0;
+	h_cfg.errors &= ~ERR_LIBSYS_MTC;
 	
 	// Show exception, library errors and L4T kernel panics.
 	_show_errors();
