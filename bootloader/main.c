@@ -426,22 +426,36 @@ void ipl_main()
 	minerva_change_freq(FREQ_800);
 
 	if (sd_mount()) {
-		if (f_stat("config/aio-switch-updater/atmosphere/fusee-secondary.bin", NULL) == FR_OK && f_unlink("atmosphere/fusee-secondary.bin") == FR_OK) {
-			f_rename("config/aio-switch-updater/atmosphere/fusee-secondary.bin", "atmosphere/fusee-secondary.bin");
+		if (f_stat("atmosphere/fusee-secondary.bin.aio", NULL) == FR_OK && f_unlink("atmosphere/fusee-secondary.bin") == FR_OK) {
+			f_rename("atmosphere/fusee-secondary.bin.aio", "atmosphere/fusee-secondary.bin");
 		}
 
-		if (f_stat("config/aio-switch-updater/sept/payload.bin", NULL) == FR_OK && f_unlink("sept/payload.bin") == FR_OK) {
-			f_rename("config/aio-switch-updater/sept/payload.bin", "sept/payload.bin");
+		if (f_stat("sept/payload.bin.aio", NULL) == FR_OK && f_unlink("sept/payload.bin") == FR_OK) {
+			f_rename("sept/payload.bin.aio", "sept/payload.bin");
+		}
+
+		if (f_stat("atmosphere/stratosphere.romfs.aio", NULL) == FR_OK && f_unlink("atmosphere/stratosphere.romfs") == FR_OK) {
+			f_rename("atmosphere/stratosphere.romfs.aio", "atmosphere/stratosphere.romfs");
+		}
+
+		// If the console is a patched or Mariko unit
+		if (h_cfg.t210b01 || h_cfg.rcm_patched) {
+			if (f_stat("payload.bin.aio", NULL) == FR_OK && f_unlink("payload.bin") == FR_OK) {
+				f_rename("payload.bin.aio", "payload.bin");
+			}
+			power_set_state(POWER_OFF_REBOOT);
+		}
+
+		else {
+			if (f_stat("bootloader/update.bin", NULL) == FR_OK)
+				launch_payload("bootloader/update.bin", false);
+
+			if (f_stat("atmosphere/reboot_payload.bin", NULL) == FR_OK)	
+				launch_payload("atmosphere/reboot_payload.bin", false);
+
+			EPRINTF("Failed to launch payload.");
 		}
 	}
-
-	if (f_stat("bootloader/update.bin", NULL) == FR_OK)
-		launch_payload("bootloader/update.bin", false);
-
-	if (f_stat("atmosphere/reboot_payload.bin", NULL) == FR_OK)	
-		launch_payload("atmosphere/reboot_payload.bin", false);
-
-	EPRINTF("Failed to launch payload.");
 
 	// Halt BPMP if we managed to get out of execution.
 	while (true)
