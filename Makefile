@@ -90,7 +90,7 @@ $(TARGET).bin: $(BUILDDIR)/$(TARGET)/$(TARGET).elf
 
 $(BUILDDIR)/$(TARGET)/$(TARGET).elf: $(OBJS)
 	@$(CC) $(LDFLAGS) -T $(SOURCEDIR)/link.ld $^ -o $@
-	@echo "Kosmos Reborn Updater RCM was built with the following flags:\nCFLAGS:  "$(CFLAGS)"\nLDFLAGS: "$(LDFLAGS)
+	@echo "aiosu-rcm was built with the following flags:\nCFLAGS:  "$(CFLAGS)"\nLDFLAGS: "$(LDFLAGS)
 
 $(BUILDDIR)/$(TARGET)/%.o: %.c
 	@echo Building $@
