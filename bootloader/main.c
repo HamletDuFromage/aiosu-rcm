@@ -425,6 +425,10 @@ void ipl_main()
 
 	minerva_change_freq(FREQ_800);
 
+	gfx_clear_grey(0x1B);
+	display_backlight_brightness(150, 1000);
+	WPRINTF("Running aio-switch-updater rcm payload...\n");
+
 	if (sd_mount()) {
 		if (f_stat("atmosphere/fusee-secondary.bin.aio", NULL) == FR_OK && f_unlink("atmosphere/fusee-secondary.bin") == FR_OK) {
 			f_rename("atmosphere/fusee-secondary.bin.aio", "atmosphere/fusee-secondary.bin");
