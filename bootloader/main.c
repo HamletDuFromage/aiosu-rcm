@@ -438,7 +438,10 @@ void ipl_main()
 			f_rename("sept/payload.bin.aio", "sept/payload.bin");
 		}
 
-		if (f_stat("atmosphere/stratosphere.romfs.aio", NULL) == FR_OK && f_unlink("atmosphere/stratosphere.romfs") == FR_OK) {
+		if (f_stat("atmosphere/stratosphere.romfs.aio", NULL) == FR_OK) {
+			if (f_stat("atmosphere/stratosphere.romfs", NULL) == FR_OK) {
+				f_unlink("atmosphere/stratosphere.romfs");
+			}
 			f_rename("atmosphere/stratosphere.romfs.aio", "atmosphere/stratosphere.romfs");
 		}
 
