@@ -363,6 +363,20 @@ out:
 	max77620_low_battery_monitor_config(true);
 }
 
+FRESULT easy_rename(const char* old, const char* new)
+{
+	FRESULT res = FR_OK;
+	if (f_stat(old, NULL) == FR_OK) {
+		if (f_stat(new, NULL) == FR_OK) {
+			res = f_unlink(new);
+		}
+		if (res == FR_OK) {
+			res = f_rename(old, new);
+		}
+	}
+	return res;
+}
+
 extern void pivot_stack(u32 stack_top);
 
 void ipl_main()
@@ -430,26 +444,13 @@ void ipl_main()
 	WPRINTF("Running aio-switch-updater rcm payload...\n");
 
 	if (sd_mount()) {
-		if (f_stat("atmosphere/fusee-secondary.bin.aio", NULL) == FR_OK && f_unlink("atmosphere/fusee-secondary.bin") == FR_OK) {
-			f_rename("atmosphere/fusee-secondary.bin.aio", "atmosphere/fusee-secondary.bin");
-		}
-
-		if (f_stat("sept/payload.bin.aio", NULL) == FR_OK && f_unlink("sept/payload.bin") == FR_OK) {
-			f_rename("sept/payload.bin.aio", "sept/payload.bin");
-		}
-
-		if (f_stat("atmosphere/stratosphere.romfs.aio", NULL) == FR_OK) {
-			if (f_stat("atmosphere/stratosphere.romfs", NULL) == FR_OK) {
-				f_unlink("atmosphere/stratosphere.romfs");
-			}
-			f_rename("atmosphere/stratosphere.romfs.aio", "atmosphere/stratosphere.romfs");
-		}
+		easy_rename("atmosphere/fusee-secondary.bin.aio", "atmosphere/fusee-secondary.bin");
+		easy_rename("sept/payload.bin.aio", "sept/payload.bin");
+		easy_rename("atmosphere/stratosphere.romfs.aio", "atmosphere/stratosphere.romfs");
 
 		// If the console is a patched or Mariko unit
 		if (h_cfg.t210b01 || h_cfg.rcm_patched) {
-			if (f_stat("payload.bin.aio", NULL) == FR_OK && f_unlink("payload.bin") == FR_OK) {
-				f_rename("payload.bin.aio", "payload.bin");
-			}
+			easy_rename("payload.bin.aio", "payload.bin");
 			power_set_state(POWER_OFF_REBOOT);
 		}
 
