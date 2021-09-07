@@ -447,6 +447,7 @@ void ipl_main()
 		easy_rename("atmosphere/fusee-secondary.bin.aio", "atmosphere/fusee-secondary.bin");
 		easy_rename("sept/payload.bin.aio", "sept/payload.bin");
 		easy_rename("atmosphere/stratosphere.romfs.aio", "atmosphere/stratosphere.romfs");
+		easy_rename("atmosphere/package3.aio", "atmosphere/package3");
 
 		// If the console is a patched or Mariko unit
 		if (h_cfg.t210b01 || h_cfg.rcm_patched) {
